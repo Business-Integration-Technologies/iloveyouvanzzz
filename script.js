@@ -80,14 +80,77 @@ noBtn.addEventListener('mouseenter', () => {
 
 // Handle yes button click
 yesBtn.addEventListener('click', () => {
-    // Hide buttons and shy text
+    // Hide buttons, shy text, and valentine message
     buttonsContainer.classList.add('hidden');
     document.querySelector('.shy-text').classList.add('hidden');
+    document.getElementById('valentineMessage').classList.add('hidden');
     
     // Show success message
     const successMessage = document.getElementById('successMessage');
     successMessage.classList.remove('hidden');
+    
+    // Start celebration animations
+    startCelebration();
 });
+
+// Celebration animations
+function startCelebration() {
+    const container = document.querySelector('.container');
+    
+    // Create fireworks
+    for (let i = 0; i < 20; i++) {
+        setTimeout(() => {
+            createFirework(container);
+        }, i * 200);
+    }
+    
+    // Create balloons
+    for (let i = 0; i < 15; i++) {
+        setTimeout(() => {
+            createBalloon(container);
+        }, i * 300);
+    }
+}
+
+function createFirework(container) {
+    const firework = document.createElement('div');
+    firework.className = 'firework';
+    const x = Math.random() * 100;
+    const y = Math.random() * 100;
+    firework.style.left = `${x}%`;
+    firework.style.top = `${y}%`;
+    firework.style.animationDelay = `${Math.random() * 0.5}s`;
+    container.appendChild(firework);
+    
+    // Create particles
+    for (let i = 0; i < 12; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'firework-particle';
+        const angle = (i / 12) * Math.PI * 2;
+        particle.style.setProperty('--angle', `${angle}rad`);
+        firework.appendChild(particle);
+    }
+    
+    setTimeout(() => {
+        firework.remove();
+    }, 2000);
+}
+
+function createBalloon(container) {
+    const balloon = document.createElement('div');
+    balloon.className = 'balloon';
+    const colors = ['#FF6B9D', '#FFC107', '#4CAF50', '#2196F3', '#9C27B0', '#FF5722'];
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    balloon.style.backgroundColor = color;
+    balloon.style.left = `${Math.random() * 100}%`;
+    balloon.style.animationDuration = `${3 + Math.random() * 2}s`;
+    balloon.style.animationDelay = `${Math.random() * 0.5}s`;
+    container.appendChild(balloon);
+    
+    setTimeout(() => {
+        balloon.remove();
+    }, 5000);
+}
 
 // Track mouse movement with smooth incremental steps
 document.addEventListener('mousemove', (e) => {
